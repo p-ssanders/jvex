@@ -1,0 +1,26 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/example/vex-9fb3463de1b57",
+  "author": "Wolfi J Inkinson",
+  "timestamp": "2023-01-08T18:02:03.647787998-06:00",
+  "version": 1,
+  "statements": [
+    {
+      "@id": "https://openvex.dev/docs/example/vex-1ec4574ef2c68",
+      "version": 1,
+      "timestamp": "2023-09-06T22:07:45.123456789-05:00",
+      "last_updated": "2023-09-06T22:09:21.123456789-05:00",
+      "vulnerability": {
+        "name": "CVE-2023-12345"
+      },
+      "products": [
+        {
+          "@id": "pkg:apk/wolfi/git@2.39.0-r1?arch=armv7"
+        }
+      ],
+      "status": "affected",
+      "supplier": "some-supplier",
+      "status_notes": "some status notes"
+    }
+  ]
+}

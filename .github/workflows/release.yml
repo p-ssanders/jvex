@@ -1,0 +1,41 @@
+name: release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 20
+        uses: actions/setup-java@v3
+        with:
+          java-version: "20"
+          distribution: "liberica"
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+
+      - name: Configure Git user
+        run: |
+          git config user.name github-action-release
+          git config user.email github-action-release@samsanders.dev
+
+      - name: Prepare Release
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: |
+          ./mvnw -B release:clean release:prepare -DpushChanges=false
+          git push --follow-tags
+
+      - name: Perform Release
+        env:
+          MAVEN_USERNAME: p-ssanders
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+        run: ./mvnw release:perform -DlocalCheckout=true
