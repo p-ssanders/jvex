@@ -139,12 +139,6 @@ public final class Document {
     }
 
     public Collection<Statement> getStatements() {
-        // TODO
-        /*
-        document.setLastUpdated(OffsetDateTime.now());
-        document.setVersion(document.getVersion() + 1);
-        document.setTooling(DEFAULT_TOOLING);
-         */
         return this.statements;
     }
 
