@@ -79,6 +79,9 @@ public final class Document {
     @JsonProperty("statements")
     private Collection<Statement> statements;
 
+    @JsonIgnore
+    private transient boolean deserialized;
+
     @JsonCreator
     Document(@JsonProperty(value = "@context", required = true) URI context,
              @JsonProperty(value = "@id", required = true) URI id,
@@ -90,6 +93,7 @@ public final class Document {
         this.author = author;
         this.timestamp = timestamp;
         this.version = version;
+        this.deserialized = true;
     }
 
     public Document(URI context, URI id, String author) {
@@ -117,10 +121,6 @@ public final class Document {
 
     public String getAuthor() {
         return this.author;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     public OffsetDateTime getTimestamp() {
@@ -153,6 +153,18 @@ public final class Document {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    @JsonSetter("role")
+    void deserializeRole(String role) {
+        this.role = role;
+    }
+
+    public void setRole(String role) {
+        if(this.deserialized) {
+            throw new IllegalStateException("Cannot set author role on existing documents");
+        }
+        this.role = role;
     }
 
     public void setTooling(String tooling) {
