@@ -93,6 +93,9 @@ public final class Document {
     }
 
     public Document(URI context, URI id, String author) {
+        if(null == context) {
+            throw new IllegalArgumentException("Context cannot be null");
+        }
         if(null == author) {
             throw new IllegalArgumentException("Author cannot be null");
         }
