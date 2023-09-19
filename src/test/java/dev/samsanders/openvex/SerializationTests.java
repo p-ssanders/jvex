@@ -17,7 +17,7 @@ public class SerializationTests {
 
     @Test
     void serialize_document() throws IOException, MalformedPackageURLException {
-        Document document = new Document("https://openvex.dev/ns/v0.2.0", URI.create(
+        Document document = new Document(Document.DEFAULT_CONTEXT, URI.create(
                 "https://openvex.dev/docs/public/vex-2e67563e128250cbcb3e98930df948dd053e43271d70dc50cfa22d57e03fe96f"),
                 "Spring Builds <spring-builds@users.noreply.github.com>");
         document.setRole("Project Release Bot");
@@ -88,7 +88,7 @@ public class SerializationTests {
 
     @Test
     void version_defaults_to_1() throws IOException {
-        Document document = new Document("https://openvex.dev/ns/v0.2.0",
+        Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
@@ -100,7 +100,7 @@ public class SerializationTests {
 
     @Test
     void not_affected_requires_justification() {
-        Document document = new Document("https://openvex.dev/ns/v0.2.0",
+        Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
         document.setStatements(Collections.singletonList(new Statement(Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))), new Vulnerability("some vulerability"),
@@ -112,7 +112,7 @@ public class SerializationTests {
 
     @Test
     void affected_requires_action_statement() {
-        Document document = new Document("https://openvex.dev/ns/v0.2.0",
+        Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
         document.setStatements(Collections.singletonList(new Statement(Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))), new Vulnerability("some vulerability"),
@@ -126,7 +126,7 @@ public class SerializationTests {
 
     @Test
     void action_statement_defaults_action_timestamp() throws IOException {
-        Document document = new Document("https://openvex.dev/ns/v0.2.0",
+        Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
         Statement statement = new Statement(Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))), new Vulnerability("some vulerability"),

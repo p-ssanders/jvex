@@ -33,7 +33,7 @@ class DeserializationTests {
 
         Document actual = objectMapper.readValue(file, Document.class);
 
-        assertEquals("https://openvex.dev/ns/v0.2.0", actual.getContext());
+        assertEquals(URI.create("https://openvex.dev/ns/v0.2.0"), actual.getContext());
         assertEquals(URI.create("https://openvex.dev/docs/example/vex-9fb3463de1b57"), actual.getId());
         assertEquals("Wolfi J Inkinson", actual.getAuthor());
         assertEquals(OffsetDateTime.parse("2023-01-08T18:02:03.647787998-06:00"), actual.getTimestamp());

@@ -9,13 +9,14 @@ import org.junit.jupiter.api.Test;
 import java.net.URI;
 import java.util.Collections;
 
+import static dev.samsanders.openvex.Document.DEFAULT_CONTEXT;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class OutsidePackageTests {
 
     @Test
     void readmeTest() throws JsonProcessingException {
-        Document document = new Document("https://openvex.dev/ns/v0.2.0",
+        Document document = new Document(DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/public/vex-a06f9de1ad1b1e555a33b2d0c1e7e6ecc4dc1800ff457c61ea09d8e97670d2a3"),
                 "Wolfi J. Inkinson");
         document.setRole("Senior VEXing Engineer");

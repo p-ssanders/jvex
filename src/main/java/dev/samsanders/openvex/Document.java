@@ -19,13 +19,15 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_T
 @JsonInclude(Include.NON_NULL)
 public final class Document {
 
+    public static final URI DEFAULT_CONTEXT = URI.create("https://openvex.dev/ns/v0.2.0");
+
     /**
      * The URL linking to the OpenVEX context definition. The URL is structured as
      * https://openvex.dev/ns/v[version], where [version] represents the specific
      * version number, such as v0.2.0.
      */
     @JsonProperty(value = "@context", required = true)
-    private final String context;
+    private final URI context;
 
     /**
      * The IRI identifying the VEX document.
@@ -78,7 +80,7 @@ public final class Document {
     private Collection<Statement> statements;
 
     @JsonCreator
-    Document(@JsonProperty(value = "@context", required = true) String context,
+    Document(@JsonProperty(value = "@context", required = true) URI context,
              @JsonProperty(value = "@id", required = true) URI id,
              @JsonProperty(value = "author", required = true) String author,
              @JsonProperty(value = "timestamp", required = true) OffsetDateTime timestamp,
@@ -90,7 +92,7 @@ public final class Document {
         this.version = version;
     }
 
-    public Document(String context, URI id, String author) {
+    public Document(URI context, URI id, String author) {
         if(null == author) {
             throw new IllegalArgumentException("Author cannot be null");
         }
@@ -102,7 +104,7 @@ public final class Document {
         this.statements = new ArrayList<>();
     }
 
-    public String getContext() {
+    public URI getContext() {
         return this.context;
     }
 
