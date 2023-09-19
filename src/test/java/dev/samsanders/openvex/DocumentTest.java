@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import static dev.samsanders.openvex.Document.DEFAULT_CONTEXT;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DocumentTest {
@@ -37,6 +38,15 @@ class DocumentTest {
         assertThrows(IllegalStateException.class, () -> {
             document.setRole("new role");
         });
+    }
+
+    @Test
+    void version_can_be_incremented() {
+        Document document = new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), "some-author");
+
+        document.incrementVersion();
+
+        assertEquals(2, document.getVersion());
     }
 
 }

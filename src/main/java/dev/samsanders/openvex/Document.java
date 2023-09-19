@@ -151,8 +151,12 @@ public final class Document {
         this.id = id;
     }
 
-    public void setVersion(Integer version) {
+    void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public void incrementVersion() {
+        this.version++;
     }
 
     @JsonSetter("role")
