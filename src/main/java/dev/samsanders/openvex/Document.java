@@ -108,6 +108,7 @@ public final class Document {
         this.author = author;
         this.timestamp = OffsetDateTime.now();
         this.version = 1;
+        this.tooling = "jvex/1.0.0";
         this.statements = new ArrayList<>();
     }
 

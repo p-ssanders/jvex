@@ -49,4 +49,11 @@ class DocumentTest {
         assertEquals(2, document.getVersion());
     }
 
+    @Test
+    void documents_created_with_jvex_specify_tooling() {
+        Document document = new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), "some-author");
+
+        assertEquals("jvex/1.0.0", document.getTooling());
+    }
+
 }
