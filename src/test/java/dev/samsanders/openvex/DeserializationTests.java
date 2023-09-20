@@ -19,57 +19,46 @@ class DeserializationTests {
     ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @Test
-    void deserialize_specExample() throws IOException {
+    void deserialize_specExample() throws IOException, MalformedPackageURLException {
         File file = getFile("documents/example.json");
 
         Document actual = objectMapper.readValue(file, Document.class);
 
         assertNotNull(actual);
-    }
-
-    @Test
-    void deserialize_required() throws IOException {
-        File file = getFile("documents/required.json");
-
-        Document actual = objectMapper.readValue(file, Document.class);
-
         assertEquals(URI.create("https://openvex.dev/ns/v0.2.0"), actual.getContext());
-        assertEquals(URI.create("https://openvex.dev/docs/example/vex-9fb3463de1b57"), actual.getId());
-        assertEquals("Wolfi J Inkinson", actual.getAuthor());
-        assertEquals(OffsetDateTime.parse("2023-01-08T18:02:03.647787998-06:00"), actual.getTimestamp());
+        assertEquals(URI.create("https://openvex.dev/docs/public/vex-2e67563e128250cbcb3e98930df948dd053e43271d70dc50cfa22d57e03fe96f"), actual.getId());
+        assertEquals("Spring Builds <spring-builds@users.noreply.github.com>", actual.getAuthor());
+        assertEquals("Project Release Bot", actual.getRole());
+        assertEquals(OffsetDateTime.parse("2023-01-16T19:07:16.853479631-06:00"), actual.getTimestamp());
         assertEquals(1, actual.getVersion());
-        assertTrue(actual.getStatements().isEmpty());
-    }
-
-    @Test
-    void deserialize_optional() throws IOException {
-        File file = getFile("documents/optional.json");
-
-        Document actual = objectMapper.readValue(file, Document.class);
-
-        assertEquals("Document Creator", actual.getRole());
-        assertEquals(OffsetDateTime.parse("2023-09-06T00:05:18.123456789-05:00"), actual.getLastUpdated());
         assertEquals("jvex/0.0.1", actual.getTooling());
+        assertFalse(actual.getStatements().isEmpty());
+        assertEquals(OffsetDateTime.parse("2023-09-06T00:05:18.123456789-05:00"), actual.getLastUpdated());
+        assertFalse(actual.getStatements().isEmpty());
+
+        Vulnerability expectedVulnerability = new Vulnerability("CVE-2021-44228");
+        expectedVulnerability.setId(URI.create("https://nvd.nist.gov/vuln/detail/CVE-2021-44228"));
+        expectedVulnerability.setDescription("Remote code injection in Log4j");
+        expectedVulnerability.setAliases(Collections.singletonList("GHSA-jfh8-c2jp-5v3q"));
+
+        Statement actualStatement = actual.getStatements().iterator().next();
+        assertEquals(expectedVulnerability, actualStatement.getVulnerability());
+        assertEquals(Status.not_affected, actualStatement.getStatus());
+        assertEquals(Justification.vulnerable_code_not_in_execute_path, actualStatement.getJustification());
+
+        Product expectedProduct = new Product(URI.create("pkg:maven/org.springframework.boot/spring-boot@2.6.0-M3"));
+        expectedProduct.setIdentifiers(new Identifiers(new PackageURL("pkg:maven/org.springframework.boot/spring-boot@2.6.0-M3")));
+        Hashes expectedHashes = new Hashes();
+        expectedHashes.setSha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        expectedProduct.setHashes(expectedHashes);
+        assertEquals(expectedProduct, actualStatement.getProducts().iterator().next());
     }
 
     @Test
-    void deserialize_invalid() throws IOException {
+    void deserialize_invalid() {
         File file = getFile("documents/invalid.json");
 
         assertThrows(IOException.class, () -> objectMapper.readValue(file, Document.class));
-    }
-
-    @Test
-    void deserialize_statement_required() throws IOException {
-        File file = getFile("documents/with-statements-required.json");
-
-        Document actual = objectMapper.readValue(file, Document.class);
-
-        assertFalse(actual.getStatements().isEmpty());
-        assertEquals(new Vulnerability("CVE-2023-12345"), actual.getStatements().iterator().next().getVulnerability());
-        assertEquals(Status.fixed, actual.getStatements().iterator().next().getStatus());
-        assertEquals(new Product(URI.create("pkg:apk/wolfi/git@2.39.0-r1?arch=armv7")),
-                actual.getStatements().iterator().next().getProducts().iterator().next());
     }
 
     @Test

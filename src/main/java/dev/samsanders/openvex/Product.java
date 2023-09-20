@@ -32,28 +32,25 @@ public final class Product extends Component {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = super.hashCode();
-        result = prime * result + Objects.hash(subcomponents);
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Product product = (Product) o;
+        return Objects.equals(subcomponents, product.subcomponents);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (!(obj instanceof Product))
-            return false;
-        Product other = (Product) obj;
-        return Objects.equals(subcomponents, other.subcomponents);
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), subcomponents);
     }
 
     @Override
     public String toString() {
-        return "Product [subcomponents=" + subcomponents + "]";
+        return "Product{" +
+                "subcomponents=" + subcomponents +
+                ", id=" + id +
+                "} " + super.toString();
     }
 
 }

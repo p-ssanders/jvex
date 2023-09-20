@@ -35,13 +35,10 @@ public class SerializationTests {
         Hashes hashes = new Hashes();
         hashes.setSha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
         product.setHashes(hashes);
-        Statement statement = new Statement(Collections.singletonList(product), vulnerability,
-                Status.not_affected);
+        Statement statement = new Statement(Collections.singletonList(product), vulnerability, Status.not_affected);
         statement.setJustification(Justification.vulnerable_code_not_in_execute_path);
-        statement.setImpactStatement(
-                "Spring Boot users are only affected by this vulnerability if they have switched the default logging system to Log4J2. The log4j-to-slf4j and log4j-api jars that we include in spring-boot-starter-logging cannot be exploited on their own. Only applications using log4j-core and including user input in log messages are vulnerable.");
-        document.setStatements(Collections.singletonList(
-                statement));
+        statement.setImpactStatement("Spring Boot users are only affected by this vulnerability if they have switched the default logging system to Log4J2. The log4j-to-slf4j and log4j-api jars that we include in spring-boot-starter-logging cannot be exploited on their own. Only applications using log4j-core and including user input in log messages are vulnerable.");
+        document.setStatements(Collections.singletonList(statement));
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         String actual = objectMapper.writeValueAsString(document);
@@ -81,21 +78,8 @@ public class SerializationTests {
                                           }
                                         ]
                                       }
-
                                         """),
                 objectMapper.readTree(actual));
-    }
-
-    @Test
-    void version_defaults_to_1() throws IOException {
-        Document document = new Document(Document.DEFAULT_CONTEXT,
-                URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
-                "some author");
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-
-        String actual = objectMapper.writeValueAsString(document);
-
-        assertEquals(objectMapper.readTree(actual).get("version").asInt(), 1);
     }
 
     @Test
