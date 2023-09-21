@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -163,6 +165,35 @@ public class Hashes {
 
     public void setBlake2b512(String blake2b512) {
         this.blake2b512 = blake2b512;
+    }
+
+    Map<String, String> asMap() {
+        HashMap<String, String> map = new HashMap<>();
+        if(null != this.md5)
+            map.put("md5", this.md5);
+        if(null != this.sha1)
+            map.put("sha1", this.sha1);
+        if(null != this.sha256)
+            map.put("sha-256", this.sha256);
+        if(null != this.sha384)
+            map.put("sha-384", this.sha384);
+        if(null != this.sha512)
+            map.put("sha-512", this.sha512);
+        if(null != this.sha3224)
+            map.put("sha3-224", this.sha3224);
+        if(null != this.sha3256)
+            map.put("sha3-256", this.sha3256);
+        if(null != this.sha3384)
+            map.put("sha3-384", this.sha3384);
+        if(null != this.sha3512)
+            map.put("sha3-512", this.sha3512);
+        if(null != this.blake2s256)
+            map.put("blake2s-256", this.blake2s256);
+        if(null != this.blake2b256)
+            map.put("blake2b-256", this.blake2b256);
+        if(null != this.blake2b512)
+            map.put("blake2b-512", this.blake2b512);
+        return map;
     }
 
     @Override

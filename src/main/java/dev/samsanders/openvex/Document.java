@@ -148,8 +148,16 @@ public final class Document {
         return this.statements;
     }
 
-    public void setId(URI id) {
+    void setId(URI id) {
         this.id = id;
+    }
+
+    void generateId(DocumentIdGenerator documentIdGenerator) {
+        this.id = documentIdGenerator.generate(this);
+    }
+
+    public void generateId() {
+        this.generateId(new CanonicalDocumentIdGenerator());
     }
 
     void setVersion(Integer version) {

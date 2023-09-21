@@ -9,8 +9,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import static dev.samsanders.openvex.Document.DEFAULT_CONTEXT;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DocumentTest {
 
@@ -35,9 +34,7 @@ class DocumentTest {
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         Document document = objectMapper.readValue(file, Document.class);
 
-        assertThrows(IllegalStateException.class, () -> {
-            document.setRole("new role");
-        });
+        assertThrows(IllegalStateException.class, () -> document.setRole("new role"));
     }
 
     @Test
@@ -54,6 +51,21 @@ class DocumentTest {
         Document document = new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), "some-author");
 
         assertEquals("jvex/1.0.0", document.getTooling());
+    }
+
+    @Test
+    void generateId_updates_id() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("documents/example.json").getFile());
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        Document document = objectMapper.readValue(file, Document.class);
+
+        document.generateId(document1 -> {
+            assertNotNull(document1);
+            return URI.create("http://some.document/id");
+        });
+
+        assertEquals(URI.create("http://some.document/id"), document.getId());
     }
 
 }
