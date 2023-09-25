@@ -19,12 +19,14 @@ public class CanonicalDocumentIdGenerator implements DocumentIdGenerator {
      */
     @Override
     public URI generate(Document document) {
-        String stringBuilder = "https://openvex.dev/docs/public/vex-%s".formatted(getCanonicalHash(document));
+        String canonicalRepresentation = getCanonicalRepresentation(document);
+        String canonicalHash = getCanonicalHash(canonicalRepresentation);
+        String stringBuilder = "https://openvex.dev/docs/public/vex-%s".formatted(canonicalHash);
 
         return URI.create(stringBuilder);
     }
 
-    private String getCanonicalHash(Document document) {
+    String getCanonicalRepresentation(Document document) {
         StringBuilder stringBuilder = new StringBuilder();
 
         // 1. Start with the document date. In unixtime to avoid format variance.
@@ -76,8 +78,12 @@ public class CanonicalDocumentIdGenerator implements DocumentIdGenerator {
             stringBuilder.append("%s".formatted(String.join(":", productStrings)));
         }
 
+        return stringBuilder.toString();
+    }
+
+    private String getCanonicalHash(String canonicalRepresentation) {
         // 6. Hash the string in sha256 and return
-        return DigestUtils.sha256Hex(stringBuilder.toString());
+        return DigestUtils.sha256Hex(canonicalRepresentation);
     }
 
     private String componentString(Component component) {
