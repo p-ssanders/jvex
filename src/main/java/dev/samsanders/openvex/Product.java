@@ -1,12 +1,15 @@
 package dev.samsanders.openvex;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 /**
@@ -27,7 +30,15 @@ public final class Product extends Component {
     }
 
     public Collection<Component> getSubcomponents() {
+        if(null == this.subcomponents)
+            this.subcomponents = new ArrayList<>();
+
         return subcomponents;
+    }
+
+    @JsonGetter("subcomponents")
+    Collection<Component> serializeSubcomponents() {
+        return this.subcomponents;
     }
 
     @Override
