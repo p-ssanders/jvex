@@ -6,7 +6,7 @@
 
 #   jvex
 
-Java types for OpenVEX documents based on the [OpenVEX Specification v0.2.0](https://openvex.dev/)
+Java library for generating, consuming, and operating on VEX documents based on the [OpenVEX Specification v0.2.0](https://openvex.dev/)
 
 ##  Installing
 
@@ -30,15 +30,27 @@ implementation 'dev.samsanders.openvex:jvex:0.0.1'
 public class Application {
 
     public static void main(String[] args) {
-        Document document = new Document("https://openvex.dev/ns/v0.2.0",
-                URI.create("https://openvex.dev/docs/public/vex-a06f9de1ad1b1e555a33b2d0c1e7e6ecc4dc1800ff457c61ea09d8e97670d2a3"),
-                "Wolfi J. Inkinson");
-        document.setRole("Senior VEXing Engineer");
+        Document document = new Document("Spring Builds <spring-builds@users.noreply.github.com>");
+        document.setRole("Project Release Bot");
+
         Product product = new Product(URI.create("pkg:oci/git@sha256:23a264e6e429852221a963e9f17338ba3f5796dc7086e46439a6f4482cf6e0cb"));
-        Statement statement = new Statement(Collections.singletonList(product), new Vulnerability("CVE-2023-12345"), Status.not_affected);
-        statement.setJustification(Justification.inline_mitigations_already_exist);
-        statement.setImpactStatement("Included git is mitigated against CVE-2023-12345!");
+        product.setIdentifiers(new Identifiers(new PackageURL("pkg:oci/git@sha256:23a264e6e429852221a963e9f17338ba3f5796dc7086e46439a6f4482cf6e0cb")));
+
+        Hashes hashes = new Hashes();
+        hashes.setSha256("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+        product.setHashes(hashes);
+
+        Vulnerability vulnerability = new Vulnerability("CVE-2021-44228");
+        vulnerability.setId(URI.create("https://nvd.nist.gov/vuln/detail/CVE-2021-44228"));
+        vulnerability.setDescription("Remote code injection in Log4j");
+        vulnerability.setAliases(List.of("GHSA-jfh8-c2jp-5v3q"));
+
+        Statement statement = new Statement(Collections.singletonList(product), vulnerability, Status.not_affected);
+        statement.setJustification(Justification.vulnerable_code_not_in_execute_path);
+        statement.setImpactStatement("Spring Boot users are only affected by this vulnerability if they have switched the default logging system to Log4J2. The log4j-to-slf4j and log4j-api jars that we include in spring-boot-starter-logging cannot be exploited on their own. Only applications using log4j-core and including user input in log messages are vulnerable.");
         document.setStatements(Collections.singletonList(statement));
+
+        document.generateId();
 
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
         try {
@@ -54,24 +66,36 @@ public class Application {
 ```json
 {
   "@context": "https://openvex.dev/ns/v0.2.0",
-  "@id": "https://openvex.dev/docs/public/vex-a06f9de1ad1b1e555a33b2d0c1e7e6ecc4dc1800ff457c61ea09d8e97670d2a3",
-  "author": "Wolfi J. Inkinson",
-  "timestamp": "2023-09-15T13:13:44.167427-06:00",
+  "@id": "https://openvex.dev/docs/public/vex-b3091b0ffb12ee9e4e0e3f416eab3812a7ce4307bf16c6075ad1f4b0b8dda5a2",
+  "author": "Spring Builds <spring-builds@users.noreply.github.com>",
+  "timestamp": "2023-09-25T15:39:24.227704-06:00",
   "version": 1,
-  "role": "Senior VEXing Engineer",
+  "role": "Project Release Bot",
+  "tooling": "jvex/1.0.0",
   "statements": [
     {
       "products": [
         {
-          "@id": "pkg:oci/git@sha256:23a264e6e429852221a963e9f17338ba3f5796dc7086e46439a6f4482cf6e0cb"
+          "@id": "pkg:oci/git@sha256:23a264e6e429852221a963e9f17338ba3f5796dc7086e46439a6f4482cf6e0cb",
+          "identifiers": {
+            "purl": "pkg:oci/git@sha256%3A23a264e6e429852221a963e9f17338ba3f5796dc7086e46439a6f4482cf6e0cb"
+          },
+          "hashes": {
+            "sha-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
         }
       ],
       "vulnerability": {
-        "name": "CVE-2023-12345"
+        "name": "CVE-2021-44228",
+        "description": "Remote code injection in Log4j",
+        "aliases": [
+          "GHSA-jfh8-c2jp-5v3q"
+        ],
+        "@id": "https://nvd.nist.gov/vuln/detail/CVE-2021-44228"
       },
       "status": "not_affected",
-      "justification": "inline_mitigations_already_exist",
-      "impact_statement": "Included git is mitigated against CVE-2023-12345!"
+      "justification": "vulnerable_code_not_in_execute_path",
+      "impact_statement": "Spring Boot users are only affected by this vulnerability if they have switched the default logging system to Log4J2. The log4j-to-slf4j and log4j-api jars that we include in spring-boot-starter-logging cannot be exploited on their own. Only applications using log4j-core and including user input in log messages are vulnerable."
     }
   ]
 }
