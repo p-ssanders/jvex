@@ -19,7 +19,6 @@ public final class Product extends Component {
      * List of component structs describing the subcomponents subject of the VEX
      * statement.
      */
-    @JsonProperty("subcomponents")
     private Collection<Component> subcomponents;
 
     @JsonCreator

@@ -42,20 +42,17 @@ public final class Document {
     /**
      * Author is the identifier for the author of the VEX statement.
      */
-    @JsonProperty(value = "author", required = true)
     private final String author;
 
     /**
      * Timestamp defines the time at which the document was issued.
      */
     @JsonFormat(without = {ADJUST_DATES_TO_CONTEXT_TIME_ZONE})
-    @JsonProperty(value = "timestamp", required = true)
     private OffsetDateTime timestamp;
 
     /**
      * Version is the document version.
      */
-    @JsonProperty(value = "version", required = true)
     private Integer version;
 
     /**
@@ -80,7 +77,6 @@ public final class Document {
      * A statement is an assertion made by the document's author about the impact a
      * vulnerability has on one or more software "products".
      */
-    @JsonProperty("statements")
     private Collection<Statement> statements;
 
     @JsonIgnore

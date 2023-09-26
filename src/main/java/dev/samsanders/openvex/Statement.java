@@ -20,20 +20,17 @@ public final class Statement {
     /**
      * A struct identifying the vulnerability.
      */
-    @JsonProperty(value = "vulnerability", required = true)
     private final Vulnerability vulnerability;
 
     /**
      * List of product structs that the statement applies to.
      */
-    @JsonProperty(value = "products", required = true)
     private final Collection<Product> products;
 
     /**
      * Status labels inform the impact of a vulnerability in the products listed in
      * a statement
      */
-    @JsonProperty(value = "status", required = true)
     private final Status status;
 
     /**
