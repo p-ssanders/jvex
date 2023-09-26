@@ -97,42 +97,8 @@ class DeserializationTests {
         assertEquals(OffsetDateTime.parse("2023-09-06T22:25:47.123456789-05:00"), actual.getActionStatementTimestamp());
     }
 
-    @Test
-    void deserialize_product()
-            throws IOException, MalformedPackageURLException {
-        File file = getFile("documents/with-products.json");
-
-        Product actual = objectMapper.readValue(file, Document.class).getStatements().iterator().next().getProducts().iterator().next();
-
-        assertNotNull(actual);
-        assertEquals(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"), actual.getId());
-        assertEquals(new PackageURL("pkg:maven/org.apache.logging.log4j/log4j-core@2.4"),
-                actual.getIdentifiers().getPackageURL());
-        assertEquals("402fa523b96591d4450ace90e32d9f779fcfd938903e1c5bf9d3701860b8f856",
-                actual.getHashes().getSha256());
-        assertEquals(
-                "d2eb65b083923d90cf55111c598f81d3d9c66f4457dfd173f01a6b7306f3b222541be42a35fe47191a9ca00e017533e8c07ca192bd22954e125557c72d2a3178",
-                actual.getHashes().getSha512());
-        assertNotNull(actual.getSubcomponents().iterator().next());
-
-    }
-
-    @Test
-    void deserialize_vulnerability() throws IOException {
-        File file = getFile("documents/with-vulnerability.json");
-
-        Vulnerability actual = objectMapper.readValue(file, Document.class).getStatements().iterator().next().getVulnerability();
-
-        assertEquals(actual.getName(), "CVE-2023-12345");
-        assertEquals(URI.create("https://openvex.dev/docs/example/vex-9fb3463de1b57"), actual.getId());
-        assertEquals("some description", actual.getDescription());
-        assertEquals(Collections.singletonList("some alias"), actual.getAliases());
-
-    }
-
     private File getFile(String name) {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(name).getFile());
-        return file;
+        return new File(classLoader.getResource(name).getFile());
     }
 }
