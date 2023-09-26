@@ -2,13 +2,16 @@ package dev.samsanders.openvex;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import java.io.IOException;
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
 import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE;
@@ -20,6 +23,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_T
 public final class Document {
 
     public static final URI DEFAULT_CONTEXT = URI.create("https://openvex.dev/ns/v0.2.0");
+    private static final ObjectWriter OBJECT_WRITER = new ObjectMapper().registerModule(new JavaTimeModule()).writer();
 
     /**
      * The URL linking to the OpenVEX context definition. The URL is structured as
@@ -97,10 +101,10 @@ public final class Document {
     }
 
     Document(URI context, URI id, String author) {
-        if(null == context) {
+        if (null == context) {
             throw new IllegalArgumentException("Context cannot be null");
         }
-        if(null == author) {
+        if (null == author) {
             throw new IllegalArgumentException("Author cannot be null");
         }
         this.context = context;
@@ -152,20 +156,12 @@ public final class Document {
         return this.statements;
     }
 
-    void setId(URI id) {
-        this.id = id;
-    }
-
     void generateId(DocumentIdGenerator documentIdGenerator) {
         this.id = documentIdGenerator.generate(this);
     }
 
     public void generateId() {
         this.generateId(new CanonicalDocumentIdGenerator());
-    }
-
-    void setVersion(Integer version) {
-        this.version = version;
     }
 
     public void incrementVersion() {
@@ -178,7 +174,7 @@ public final class Document {
     }
 
     public void setRole(String role) {
-        if(this.deserialized) {
+        if (this.deserialized) {
             throw new IllegalStateException("Cannot set author role on existing documents");
         }
         this.role = role;
@@ -209,6 +205,10 @@ public final class Document {
 
     public void setStatements(Collection<Statement> statements) {
         this.statements = statements;
+    }
+
+    public String asJson() throws IOException {
+        return OBJECT_WRITER.writeValueAsString(this);
     }
 
     @Override
