@@ -15,7 +15,12 @@
       },
       "products": [
         {
-          "@id": "pkg:apk/wolfi/git@2.39.0-r1?arch=armv7"
+          "@id": "pkg:apk/wolfi/git@2.39.0-r1?arch=armv7",
+          "subcomponents": [
+            {
+              "@id": "pkg:apk/wolfi/git@2.39.0-r1?arch=armv7"
+            }
+          ]
         }
       ],
       "status": "affected",

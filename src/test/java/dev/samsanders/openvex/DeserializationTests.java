@@ -101,6 +101,7 @@ class DeserializationTests {
         assertEquals(OffsetDateTime.parse("2023-09-06T22:09:21.123456789-05:00"), actual.getLastUpdated());
         assertEquals("some-supplier", actual.getSupplier());
         assertEquals("some status notes", actual.getStatusNotes());
+        assertEquals(URI.create("pkg:apk/wolfi/git@2.39.0-r1?arch=armv7"), actual.getProducts().iterator().next().getSubcomponents().iterator().next().getId());
     }
 
     @Test
