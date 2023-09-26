@@ -70,6 +70,7 @@ class DocumentTest {
         document.setRole("Project Release Bot");
         document.setTooling("jvex/0.0.1");
         document.setTimestamp(OffsetDateTime.parse("2023-01-17T01:07:16.85347963Z"));
+        document.setLastUpdated(OffsetDateTime.parse("2023-01-17T01:07:16.85347963Z"));
         Vulnerability vulnerability = new Vulnerability("CVE-2021-44228");
         vulnerability.setId(URI.create("https://nvd.nist.gov/vuln/detail/CVE-2021-44228"));
         vulnerability.setDescription("Remote code injection in Log4j");
@@ -98,6 +99,7 @@ class DocumentTest {
                                         "version": 1,
                                         "role": "Project Release Bot",
                                         "tooling": "jvex/0.0.1",
+                                        "last_updated": "2023-01-17T01:07:16.85347963Z",
                                         "statements": [
                                           {
                                             "vulnerability": {
