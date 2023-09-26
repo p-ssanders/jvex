@@ -32,16 +32,6 @@ class DocumentTest {
     }
 
     @Test
-    void author_role_cannot_be_set_on_deserialized_documents() throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("documents/example.json").getFile());
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        Document document = objectMapper.readValue(file, Document.class);
-
-        assertThrows(IllegalStateException.class, () -> document.setRole("new role"));
-    }
-
-    @Test
     void version_can_be_incremented() {
         Document document = new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), "some-author");
 

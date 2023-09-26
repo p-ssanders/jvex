@@ -55,8 +55,36 @@ class DeserializationTests {
     }
 
     @Test
-    void deserialize_invalid() {
-        File file = getFile("documents/invalid.json");
+    void deserialize_invalid_no_context() {
+        File file = getFile("documents/invalid/no-context.json");
+
+        assertThrows(IOException.class, () -> objectMapper.readValue(file, Document.class));
+    }
+
+    @Test
+    void deserialize_invalid_no_id() {
+        File file = getFile("documents/invalid/no-id.json");
+
+        assertThrows(IOException.class, () -> objectMapper.readValue(file, Document.class));
+    }
+
+    @Test
+    void deserialize_invalid_no_author() {
+        File file = getFile("documents/invalid/no-author.json");
+
+        assertThrows(IOException.class, () -> objectMapper.readValue(file, Document.class));
+    }
+
+    @Test
+    void deserialize_invalid_bad_timestamp() {
+        File file = getFile("documents/invalid/bad-timestamp.json");
+
+        assertThrows(IOException.class, () -> objectMapper.readValue(file, Document.class));
+    }
+
+    @Test
+    void deserialize_invalid_no_version() {
+        File file = getFile("documents/invalid/no-version.json");
 
         assertThrows(IOException.class, () -> objectMapper.readValue(file, Document.class));
     }
@@ -95,6 +123,16 @@ class DeserializationTests {
         assertEquals(Status.affected, actual.getStatus());
         assertEquals("some action statement", actual.getActionStatement());
         assertEquals(OffsetDateTime.parse("2023-09-06T22:25:47.123456789-05:00"), actual.getActionStatementTimestamp());
+    }
+
+    @Test
+    void author_role_cannot_be_set_on_deserialized_documents() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("documents/example.json").getFile());
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        Document document = objectMapper.readValue(file, Document.class);
+
+        assertThrows(IllegalStateException.class, () -> document.setRole("new role"));
     }
 
     private File getFile(String name) {

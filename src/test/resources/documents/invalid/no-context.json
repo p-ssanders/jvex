@@ -1,0 +1,10 @@
+{
+  "@id": "https://openvex.dev/docs/public/vex-2e67563e128250cbcb3e98930df948dd053e43271d70dc50cfa22d57e03fe96f",
+  "author": "Spring Builds <spring-builds@users.noreply.github.com>",
+  "role": "Project Release Bot",
+  "timestamp": "2023-01-16T19:07:16.853479631-06:00",
+  "version": 1,
+  "tooling": "jvex/0.0.1",
+  "last_updated": "2023-09-06T00:05:18.123456789-05:00",
+  "statements": []
+}
