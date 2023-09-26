@@ -96,7 +96,7 @@ public final class Document {
         this.deserialized = true;
     }
 
-    public Document(URI context, URI id, String author) {
+    Document(URI context, URI id, String author) {
         if(null == context) {
             throw new IllegalArgumentException("Context cannot be null");
         }
@@ -110,6 +110,10 @@ public final class Document {
         this.version = 1;
         this.tooling = "jvex/1.0.0";
         this.statements = new ArrayList<>();
+    }
+
+    public Document(String author) {
+        this(DEFAULT_CONTEXT, null, author);
     }
 
     public URI getContext() {
