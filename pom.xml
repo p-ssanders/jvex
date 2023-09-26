@@ -5,10 +5,10 @@
 
     <groupId>dev.samsanders.openvex</groupId>
     <artifactId>jvex</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>jvex</name>
-    <description>Java types for OpenVEX documents</description>
+    <description>Java library for generating, consuming, and operating on VEX documents</description>
     <url>https://openvex.dev/</url>
 
     <licenses>
