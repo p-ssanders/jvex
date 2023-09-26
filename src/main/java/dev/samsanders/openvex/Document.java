@@ -203,7 +203,7 @@ public final class Document {
         this.lastUpdated = lastUpdated;
     }
 
-    public void setStatements(Collection<Statement> statements) {
+    void setStatements(Collection<Statement> statements) {
         this.statements = statements;
     }
 

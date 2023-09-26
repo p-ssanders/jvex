@@ -36,7 +36,7 @@ public class OutsidePackageTests {
         Statement statement = new Statement(Collections.singletonList(product), vulnerability, Status.not_affected);
         statement.setJustification(Justification.vulnerable_code_not_in_execute_path);
         statement.setImpactStatement("Spring Boot users are only affected by this vulnerability if they have switched the default logging system to Log4J2. The log4j-to-slf4j and log4j-api jars that we include in spring-boot-starter-logging cannot be exploited on their own. Only applications using log4j-core and including user input in log messages are vulnerable.");
-        document.setStatements(Collections.singletonList(statement));
+        document.getStatements().add(statement);
 
         document.generateId();
 
