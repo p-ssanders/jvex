@@ -65,7 +65,7 @@ final class CanonicalDocumentIdGenerator implements DocumentIdGenerator {
             for (Product product : statement.getProducts()) {
 
                 StringBuilder productString = new StringBuilder(componentString(product));
-                if (null != product.getSubcomponents()) {
+                if (null != product.getSubcomponents() && !product.getSubcomponents().isEmpty()) {
                     for (Component subcomponent : product.getSubcomponents())
                         productString.append(componentString(subcomponent));
                 }

@@ -38,6 +38,9 @@ public final class Product extends Component {
 
     @JsonGetter("subcomponents")
     Collection<Component> serializeSubcomponents() {
+        if(null != this.subcomponents && this.subcomponents.isEmpty())
+            return null;
+
         return this.subcomponents;
     }
 

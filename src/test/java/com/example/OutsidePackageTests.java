@@ -8,16 +8,18 @@ import com.github.packageurl.PackageURL;
 import dev.samsanders.openvex.*;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class OutsidePackageTests {
 
     @Test
-    void readmeTest() throws JsonProcessingException, MalformedPackageURLException {
+    void readmeTest() throws IOException, MalformedPackageURLException {
         Document document = new Document("Spring Builds <spring-builds@users.noreply.github.com>");
         document.setRole("Project Release Bot");
 
@@ -40,7 +42,9 @@ public class OutsidePackageTests {
 
         document.generateId();
 
-        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
-        assertNotNull(objectMapper.writeValueAsString(document));
+        String actual = document.asJson();
+
+        assertNotNull(actual);
+        assertNull(new ObjectMapper().registerModule(new JavaTimeModule()).readTree(actual).get("statements").iterator().next().get("products").iterator().next().get("subcomponents"));
     }
 }
