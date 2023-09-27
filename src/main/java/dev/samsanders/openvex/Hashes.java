@@ -13,7 +13,7 @@ import java.util.Objects;
  * Data structure used to represent a map of cryptographic hashes of the component
  */
 @JsonInclude(Include.NON_NULL)
-public class Hashes {
+public final class Hashes {
 
     @JsonProperty("md5")
     private String md5;

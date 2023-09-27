@@ -2,7 +2,7 @@ package dev.samsanders.openvex;
 
 import java.net.URI;
 
-public interface DocumentIdGenerator {
+interface DocumentIdGenerator {
 
     URI generate(Document document);
 }
