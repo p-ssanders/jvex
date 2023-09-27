@@ -3,19 +3,17 @@ package dev.samsanders.openvex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 
-public class CanonicalDocumentIdGenerator implements DocumentIdGenerator {
+final class CanonicalDocumentIdGenerator implements DocumentIdGenerator {
 
     /**
      * Generate an ID for the Document based on the "canonicalization hash."
      * Generation algorithm re-implemented from go-vex's VEX.CanonicalHash
      * to produce the same hashes given the same document
+     * @see <a href="https://github.com/openvex/go-vex">go-vex</a>
      */
     @Override
     public URI generate(Document document) {
