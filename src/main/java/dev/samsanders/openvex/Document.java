@@ -23,7 +23,10 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_T
 public final class Document {
 
     public static final URI DEFAULT_CONTEXT = URI.create("https://openvex.dev/ns/v0.2.0");
-    private static final ObjectWriter OBJECT_WRITER = new ObjectMapper().registerModule(new JavaTimeModule()).writer();
+    private static final ObjectWriter OBJECT_WRITER = new ObjectMapper()
+            .registerModule(new JavaTimeModule())
+            .writer()
+            .withDefaultPrettyPrinter();
 
     /**
      * The URL linking to the OpenVEX context definition. The URL is structured as
