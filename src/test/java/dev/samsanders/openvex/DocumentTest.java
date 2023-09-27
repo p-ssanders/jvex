@@ -166,4 +166,11 @@ class DocumentTest {
         assertNotNull(new ObjectMapper().readTree(actual).get("statements").iterator().next().get("action_statement_timestamp"));
     }
 
+    @Test
+    void serialization_requires_statements() {
+        Document document = new Document("some author");
+
+        assertThrows(IOException.class, document::asJson);
+    }
+
 }

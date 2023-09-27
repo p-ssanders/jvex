@@ -90,6 +90,13 @@ class DeserializationTests {
     }
 
     @Test
+    void deserialize_invalid_no_statements() {
+        File file = getFile("documents/invalid/no-statements.json");
+
+        assertThrows(IOException.class, () -> objectMapper.readValue(file, Document.class));
+    }
+
+    @Test
     void deserialize_statement_optional() throws IOException {
         File file = getFile("documents/with-statements-optional.json");
 

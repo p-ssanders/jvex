@@ -90,12 +90,17 @@ public final class Document {
              @JsonProperty(value = "@id", required = true) URI id,
              @JsonProperty(value = "author", required = true) String author,
              @JsonProperty(value = "timestamp", required = true) OffsetDateTime timestamp,
-             @JsonProperty(value = "version", required = true) Integer version) {
+             @JsonProperty(value = "version", required = true) Integer version,
+             @JsonProperty(value = "statements", required = true) Collection<Statement> statements) {
         this.context = context;
         this.id = id;
         this.author = author;
         this.timestamp = timestamp;
         this.version = version;
+        if (statements.isEmpty()) {
+            throw new IllegalArgumentException("Document must have statements");
+        }
+        this.statements = statements;
         this.deserialized = true;
     }
 
@@ -152,6 +157,14 @@ public final class Document {
     }
 
     public Collection<Statement> getStatements() {
+        return this.statements;
+    }
+
+    @JsonGetter("statements")
+    Collection<Statement> serializeStatements() {
+        if (null == this.statements || this.statements.isEmpty()) {
+            throw new IllegalStateException("Document must have statements");
+        }
         return this.statements;
     }
 
