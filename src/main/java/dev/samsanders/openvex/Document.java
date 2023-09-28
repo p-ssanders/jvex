@@ -3,9 +3,11 @@ package dev.samsanders.openvex;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.time.OffsetDateTime;
@@ -23,10 +25,9 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_T
 public final class Document {
 
     public static final URI DEFAULT_CONTEXT = URI.create("https://openvex.dev/ns/v0.2.0");
-    private static final ObjectWriter OBJECT_WRITER = new ObjectMapper()
-            .registerModule(new JavaTimeModule())
-            .writer()
-            .withDefaultPrettyPrinter();
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
+    private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writer().withDefaultPrettyPrinter();
+    private static final ObjectReader OBJECT_READER = OBJECT_MAPPER.reader();
 
     /**
      * The URL linking to the OpenVEX context definition. The URL is structured as
@@ -122,6 +123,10 @@ public final class Document {
 
     public Document(String author) {
         this(DEFAULT_CONTEXT, null, author);
+    }
+
+    public static Document fromFile(File json) throws IOException {
+        return OBJECT_READER.readValue(json, Document.class);
     }
 
     public URI getContext() {

@@ -19,16 +19,12 @@ class DocumentTest {
 
     @Test
     void context_cannot_be_null() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Document(null, URI.create("http://some.uri"), "some author");
-        });
+        assertThrows(IllegalArgumentException.class, () -> new Document(null, URI.create("http://some.uri"), "some author"));
     }
 
     @Test
     void author_cannot_be_null() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), null);
-        });
+        assertThrows(IllegalArgumentException.class, () -> new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), null));
     }
 
     @Test
@@ -134,19 +130,27 @@ class DocumentTest {
         Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
-        document.setStatements(Collections.singletonList(new Statement(Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))), new Vulnerability("some vulerability"),
-                Status.not_affected)));
+        document.getStatements().add(
+                new Statement(
+                        Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
+                        new Vulnerability("some vulerability"),
+                        Status.not_affected
+                )
+        );
 
         assertThrows(IOException.class, document::asJson);
     }
 
     @Test
     void affected_requires_action_statement() {
-        Document document = new Document(Document.DEFAULT_CONTEXT,
-                URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
-                "some author");
-        document.setStatements(Collections.singletonList(new Statement(Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))), new Vulnerability("some vulerability"),
-                Status.affected)));
+        Document document = new Document(Document.DEFAULT_CONTEXT, null, "some author");
+        document.getStatements().add(
+                new Statement(
+                        Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
+                        new Vulnerability("some vulerability"),
+                        Status.affected
+                )
+        );
 
         assertThrows(IOException.class, document::asJson);
     }
@@ -156,7 +160,9 @@ class DocumentTest {
         Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
-        Statement statement = new Statement(Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))), new Vulnerability("some vulerability"),
+        Statement statement = new Statement(
+                Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
+                new Vulnerability("some vulerability"),
                 Status.affected);
         statement.setActionStatement("some action statement");
         document.setStatements(Collections.singletonList(statement));
