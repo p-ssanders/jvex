@@ -1,7 +1,7 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![build](https://github.com/p-ssanders/jvex/actions/workflows/build.yml/badge.svg)](https://github.com/p-ssanders/jvex/actions/workflows/build.yml)
 [![maven-central](https://img.shields.io/maven-central/v/dev.samsanders.openvex/jvex)](https://central.sonatype.com/artifact/dev.samsanders.openvex/jvex/overview)
-
+[![javadoc](https://javadoc.io/badge2/dev.samsanders.openvex/jvex/javadoc.svg)](https://javadoc.io/doc/dev.samsanders.openvex/jvex)
 
 
 #   jvex
