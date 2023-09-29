@@ -30,7 +30,7 @@ class DocumentTest {
 
     @Test
     void version_can_be_incremented() {
-        Document document = new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), "some-author");
+        Document document = new Document("some-author");
 
         document.incrementVersion();
 
@@ -154,7 +154,7 @@ class DocumentTest {
     }
 
     @Test
-    void not_affected_requires_justification() throws IOException {
+    void not_affected_requires_justification() {
         Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
@@ -170,7 +170,7 @@ class DocumentTest {
     }
 
     @Test
-    void affected_requires_action_statement() throws IOException {
+    void affected_requires_action_statement() {
         Document document = new Document(Document.DEFAULT_CONTEXT, null, "some author");
         document.getStatements().add(
                 new Statement(

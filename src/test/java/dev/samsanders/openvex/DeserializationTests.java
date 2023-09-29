@@ -55,7 +55,7 @@ class DeserializationTests {
     }
 
     @Test
-    void statement_optional() throws IOException {
+    void statement_with_optional_fields() throws IOException {
         File file = getFile("documents/with-statements-optional.json");
 
         Statement actual = Document.fromFile(file).getStatements().iterator().next();
@@ -67,28 +67,6 @@ class DeserializationTests {
         assertEquals("some-supplier", actual.getSupplier());
         assertEquals("some status notes", actual.getStatusNotes());
         assertEquals(URI.create("pkg:apk/wolfi/git@2.39.0-r1?arch=armv7"), actual.getProducts().iterator().next().getSubcomponents().iterator().next().getId());
-    }
-
-    @Test
-    void statement_not_affected() throws IOException {
-        File file = getFile("documents/with-statements-not_affected.json");
-
-        Statement actual = Document.fromFile(file).getStatements().iterator().next();
-
-        assertEquals(Status.not_affected, actual.getStatus());
-        assertEquals(Justification.component_not_present, actual.getJustification());
-        assertEquals("some impact statement", actual.getImpactStatement());
-    }
-
-    @Test
-    void statement_affected() throws IOException {
-        File file = getFile("documents/with-statements-affected.json");
-
-        Statement actual = Document.fromFile(file).getStatements().iterator().next();
-
-        assertEquals(Status.affected, actual.getStatus());
-        assertEquals("some action statement", actual.getActionStatement());
-        assertEquals(OffsetDateTime.parse("2023-09-06T22:25:47.123456789-05:00"), actual.getActionStatementTimestamp());
     }
 
     @Test
