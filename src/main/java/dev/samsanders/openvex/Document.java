@@ -190,9 +190,7 @@ public final class Document {
 
     @JsonGetter("@id")
     URI serializeId() {
-        if (null == this.id) {
-            this.generateId();
-        }
+        this.generateId();
 
         return this.id;
     }
