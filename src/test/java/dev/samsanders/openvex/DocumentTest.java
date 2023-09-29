@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static dev.samsanders.openvex.Document.DEFAULT_CONTEXT;
@@ -207,4 +208,25 @@ class DocumentTest {
         assertThrows(IOException.class, document::asJson);
     }
 
+    @Test
+    void adding_statement_to_deserialized_document_updates_original_statement_timestamp() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("documents/example.json").getFile());
+        Document document = Document.fromFile(file);
+        Statement statement = new Statement(
+                Collections.singletonList(new Product(URI.create("pkg:maven/com.example/most-important@1.0.0"))),
+                new Vulnerability("CVE-2023-12346"),
+                Status.affected
+        );
+        statement.setActionStatement("some action statement");
+        OffsetDateTime originalDocumentTimestamp = document.getTimestamp();
+
+        document.getStatements().add(statement);
+
+        ArrayList<Statement> statements = new ArrayList<>(document.getStatements());
+        assertEquals(originalDocumentTimestamp, statements.get(0).getTimestamp());
+        assertEquals(statement, statements.get(1));
+        assertNull(statements.get(1).getTimestamp());
+        assertTrue(document.getTimestamp().isAfter(originalDocumentTimestamp));
+    }
 }

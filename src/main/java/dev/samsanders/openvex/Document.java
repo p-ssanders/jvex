@@ -101,7 +101,7 @@ public final class Document {
         if (statements.isEmpty()) {
             throw new IllegalArgumentException("Document must have statements");
         }
-        this.statements = statements;
+        this.statements = new StatementList<>(statements, this);
         this.deserialized = true;
     }
 

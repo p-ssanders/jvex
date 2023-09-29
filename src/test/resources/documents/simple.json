@@ -1,0 +1,33 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://openvex.dev/docs/public/vex-2e67563e128250cbcb3e98930df948dd053e43271d70dc50cfa22d57e03fe96f",
+  "author": "Sam",
+  "role": "Developer",
+  "timestamp": "2023-01-16T19:07:16.853479631-06:00",
+  "version": 1,
+  "tooling": "jvex/0.0.1",
+  "statements": [
+    {
+      "vulnerability": {
+        "@id": "https://nvd.nist.gov/vuln/detail/CVE-2023-12346",
+        "name": "CVE-2023-12346",
+        "description": "it's real bad",
+        "aliases": [
+          "GHSA-abc1-def2-hij3"
+        ]
+      },
+      "products": [
+        {
+          "@id": "pkg:maven/com.example/most-important@1.0.0",
+          "identifiers": {
+            "purl": "pkg:maven/com.example/most-important@1.0.0"
+          },
+          "hashes": {
+            "sha-256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      ],
+      "status": "under_investigation"
+    }
+  ]
+}
