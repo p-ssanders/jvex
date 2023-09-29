@@ -129,7 +129,7 @@ class DocumentTest {
         Document document = new Document("some author");
         Statement statement = new Statement(
                 Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
-                new Vulnerability("some vulerability"),
+                new Vulnerability("some vulnerability"),
                 Status.under_investigation);
         document.setStatements(Collections.singletonList(statement));
 
@@ -143,7 +143,7 @@ class DocumentTest {
         Document document = new Document("some author");
         Statement statement = new Statement(
                 Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
-                new Vulnerability("some vulerability"),
+                new Vulnerability("some vulnerability"),
                 Status.under_investigation);
         document.setStatements(Collections.singletonList(statement));
         ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
@@ -161,7 +161,7 @@ class DocumentTest {
         document.getStatements().add(
                 new Statement(
                         Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
-                        new Vulnerability("some vulerability"),
+                        new Vulnerability("some vulnerability"),
                         Status.not_affected
                 )
         );
@@ -175,7 +175,7 @@ class DocumentTest {
         document.getStatements().add(
                 new Statement(
                         Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
-                        new Vulnerability("some vulerability"),
+                        new Vulnerability("some vulnerability"),
                         Status.affected
                 )
         );
@@ -190,7 +190,7 @@ class DocumentTest {
                 "some author");
         Statement statement = new Statement(
                 Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
-                new Vulnerability("some vulerability"),
+                new Vulnerability("some vulnerability"),
                 Status.affected);
         statement.setActionStatement("some action statement");
         document.setStatements(Collections.singletonList(statement));
