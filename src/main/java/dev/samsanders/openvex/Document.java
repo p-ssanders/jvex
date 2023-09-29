@@ -24,7 +24,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Feature.ADJUST_DATES_T
 @JsonInclude(Include.NON_NULL)
 public final class Document {
 
-    public static final URI DEFAULT_CONTEXT = URI.create("https://openvex.dev/ns/v0.2.0");
+    static final URI DEFAULT_CONTEXT = URI.create("https://openvex.dev/ns/v0.2.0");
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
     private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writer().withDefaultPrettyPrinter();
     private static final ObjectReader OBJECT_READER = OBJECT_MAPPER.reader();
@@ -134,7 +134,7 @@ public final class Document {
     }
 
     public URI getId() {
-        return id;
+        return this.id;
     }
 
     public String getAuthor() {
