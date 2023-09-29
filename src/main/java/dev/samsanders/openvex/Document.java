@@ -165,6 +165,38 @@ public final class Document {
         return this.statements;
     }
 
+    public void setRole(String role) {
+        if (this.deserialized) {
+            throw new IllegalStateException("Cannot set author role on existing documents");
+        }
+        this.role = role;
+    }
+
+    public void setLastUpdated(OffsetDateTime lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public void setTooling(String tooling) {
+        this.tooling = tooling;
+    }
+
+    public void incrementVersion() {
+        this.version++;
+    }
+
+    public String asJson() throws IOException {
+        return OBJECT_WRITER.writeValueAsString(this);
+    }
+
+    @JsonGetter("@id")
+    URI serializeId() {
+        if (null == this.id) {
+            this.generateId();
+        }
+
+        return this.id;
+    }
+
     @JsonGetter("statements")
     Collection<Statement> serializeStatements() {
         if (null == this.statements || this.statements.isEmpty()) {
@@ -177,28 +209,13 @@ public final class Document {
         this.id = documentIdGenerator.generate(this);
     }
 
-    public void generateId() {
+    private void generateId() {
         this.generateId(new CanonicalDocumentIdGenerator());
-    }
-
-    public void incrementVersion() {
-        this.version++;
     }
 
     @JsonSetter("role")
     void deserializeRole(String role) {
         this.role = role;
-    }
-
-    public void setRole(String role) {
-        if (this.deserialized) {
-            throw new IllegalStateException("Cannot set author role on existing documents");
-        }
-        this.role = role;
-    }
-
-    public void setTooling(String tooling) {
-        this.tooling = tooling;
     }
 
     @JsonGetter("timestamp")
@@ -216,16 +233,8 @@ public final class Document {
         return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(this.lastUpdated);
     }
 
-    public void setLastUpdated(OffsetDateTime lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
     void setStatements(Collection<Statement> statements) {
         this.statements = statements;
-    }
-
-    public String asJson() throws IOException {
-        return OBJECT_WRITER.writeValueAsString(this);
     }
 
     @Override

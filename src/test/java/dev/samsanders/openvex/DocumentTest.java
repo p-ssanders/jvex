@@ -1,5 +1,6 @@
 package dev.samsanders.openvex;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.packageurl.MalformedPackageURLException;
@@ -38,7 +39,7 @@ class DocumentTest {
 
     @Test
     void documents_created_with_jvex_specify_tooling() {
-        Document document = new Document(DEFAULT_CONTEXT, URI.create("http://some.uri"), "some-author");
+        Document document = new Document("some-author");
 
         assertEquals("jvex/1.0.0", document.getTooling());
     }
@@ -60,9 +61,7 @@ class DocumentTest {
 
     @Test
     void asJson() throws IOException, MalformedPackageURLException {
-        Document document = new Document(Document.DEFAULT_CONTEXT, URI.create(
-                "https://openvex.dev/docs/public/vex-2e67563e128250cbcb3e98930df948dd053e43271d70dc50cfa22d57e03fe96f"),
-                "Spring Builds <spring-builds@users.noreply.github.com>");
+        Document document = new Document("Spring Builds <spring-builds@users.noreply.github.com>");
         document.setRole("Project Release Bot");
         document.setTooling("jvex/0.0.1");
         document.setTimestamp(OffsetDateTime.parse("2023-01-17T01:07:16.85347963Z"));
@@ -89,7 +88,7 @@ class DocumentTest {
                         """
                                 {
                                         "@context": "https://openvex.dev/ns/v0.2.0",
-                                        "@id": "https://openvex.dev/docs/public/vex-2e67563e128250cbcb3e98930df948dd053e43271d70dc50cfa22d57e03fe96f",
+                                        "@id": "https://openvex.dev/docs/public/vex-63fa798bc2a5522386a09b87ebaf2586e40cada9627cba5ea207b4e4159893b0",
                                         "author": "Spring Builds <spring-builds@users.noreply.github.com>",
                                         "timestamp": "2023-01-17T01:07:16.85347963Z",
                                         "version": 1,
@@ -126,7 +125,36 @@ class DocumentTest {
     }
 
     @Test
-    void not_affected_requires_justification() {
+    void asJson_generatesId() throws IOException {
+        Document document = new Document("some author");
+        Statement statement = new Statement(
+                Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
+                new Vulnerability("some vulerability"),
+                Status.under_investigation);
+        document.setStatements(Collections.singletonList(statement));
+
+        String actual = document.asJson();
+
+        assertNotNull(new ObjectMapper().readTree(actual).get("@id"));
+    }
+
+    @Test
+    void serialization_generatesId() throws JsonProcessingException {
+        Document document = new Document("some author");
+        Statement statement = new Statement(
+                Collections.singletonList(new Product(URI.create("pkg:apk/wolfi/product@1.23.0-r1?arch=armv7"))),
+                new Vulnerability("some vulerability"),
+                Status.under_investigation);
+        document.setStatements(Collections.singletonList(statement));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+        String json = objectMapper.writeValueAsString(document);
+
+        assertNotNull(objectMapper.readTree(json).get("@id"));
+    }
+
+    @Test
+    void not_affected_requires_justification() throws IOException {
         Document document = new Document(Document.DEFAULT_CONTEXT,
                 URI.create("https://openvex.dev/docs/example/vex-1ec2552cd0a46"),
                 "some author");
@@ -142,7 +170,7 @@ class DocumentTest {
     }
 
     @Test
-    void affected_requires_action_statement() {
+    void affected_requires_action_statement() throws IOException {
         Document document = new Document(Document.DEFAULT_CONTEXT, null, "some author");
         document.getStatements().add(
                 new Statement(
@@ -173,7 +201,7 @@ class DocumentTest {
     }
 
     @Test
-    void serialization_requires_statements() {
+    void requires_statements() {
         Document document = new Document("some author");
 
         assertThrows(IOException.class, document::asJson);

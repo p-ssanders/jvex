@@ -42,12 +42,12 @@ public class OutsidePackageTests {
                 "Only applications using log4j-core and including user input in log messages are vulnerable.");
         document.getStatements().add(statement);
 
-        document.generateId();
-
         String actual = document.asJson();
 
         assertNotNull(actual);
-        assertNull(new ObjectMapper().registerModule(new JavaTimeModule()).readTree(actual).get("statements").iterator().next().get("products").iterator().next().get("subcomponents"));
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        assertNull(objectMapper.readTree(actual).get("statements").iterator().next().get("products").iterator().next().get("subcomponents"));
+        assertNotNull(objectMapper.readTree(actual).get("@id"));
     }
 
     @Test
