@@ -54,8 +54,9 @@ public class OutsidePackageTests {
     void consume() throws IOException, MalformedPackageURLException {
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource("documents/example.json").getFile());
+        ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
-        Document actual = Document.fromFile(file);
+        Document actual = objectMapper.readValue(file, Document.class);
 
         assertNotNull(actual);
         assertEquals(URI.create("https://openvex.dev/ns/v0.2.0"), actual.getContext());

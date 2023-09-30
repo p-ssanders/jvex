@@ -125,10 +125,6 @@ public final class Document {
         this(DEFAULT_CONTEXT, null, author);
     }
 
-    public static Document fromFile(File json) throws IOException {
-        return OBJECT_READER.readValue(json, Document.class);
-    }
-
     public URI getContext() {
         return this.context;
     }
@@ -188,19 +184,15 @@ public final class Document {
         return OBJECT_WRITER.writeValueAsString(this);
     }
 
+    static Document fromFile(File json) throws IOException {
+        return OBJECT_READER.readValue(json, Document.class);
+    }
+
     @JsonGetter("@id")
     URI serializeId() {
         this.generateId();
 
         return this.id;
-    }
-
-    @JsonGetter("statements")
-    Collection<Statement> serializeStatements() {
-        if (null == this.statements || this.statements.isEmpty()) {
-            throw new IllegalStateException("Document must have statements");
-        }
-        return this.statements;
     }
 
     void generateId(DocumentIdGenerator documentIdGenerator) {
@@ -229,6 +221,14 @@ public final class Document {
     String serializeLastUpdated() {
         if (null == this.lastUpdated) return null;
         return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(this.lastUpdated);
+    }
+
+    @JsonGetter("statements")
+    Collection<Statement> serializeStatements() {
+        if (null == this.statements || this.statements.isEmpty()) {
+            throw new IllegalStateException("Document must have statements");
+        }
+        return this.statements;
     }
 
     void setStatements(Collection<Statement> statements) {
