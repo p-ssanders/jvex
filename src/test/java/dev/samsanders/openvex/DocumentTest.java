@@ -42,7 +42,7 @@ class DocumentTest {
     void documents_created_with_jvex_specify_tooling() {
         Document document = new Document("some-author");
 
-        assertEquals("jvex/1.0.0", document.getTooling());
+        assertEquals("jvex/0.1.0", document.getTooling());
     }
 
     @Test

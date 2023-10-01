@@ -86,7 +86,7 @@ public final class Document {
         this.author = author;
         this.timestamp = OffsetDateTime.now();
         this.version = 1;
-        this.tooling = "jvex/1.0.0";
+        this.tooling = "jvex/0.1.0";
         this.statements = new ArrayList<>();
     }
 
@@ -96,7 +96,7 @@ public final class Document {
      *  <li>context to https://openvex.dev/ns/v0.2.0 </li>
      *  <li>timestamp to now </li>
      *  <li>version to 1 </li>
-     *  <li>tooling to jvex/1.0.0 </li>
+     *  <li>tooling to jvex/0.1.0 </li>
      *  <li>id to null, will be generated upon serialization based on document contents </li>
      * </ul>
      * @param author cannot be null
@@ -190,7 +190,7 @@ public final class Document {
 
     /**
      * Express how the VEX document and contained VEX statements were generated
-     * Defaults to include `jvex/1.0.0`
+     * Defaults to include `jvex/0.1.0`
      */
     public void setTooling(String tooling) {
         this.tooling = tooling;

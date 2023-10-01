@@ -15,13 +15,13 @@ Maven
 <dependency>
   <groupId>dev.samsanders.openvex</groupId>
   <artifactId>jvex</artifactId>
-  <version>1.0.0</version>
+  <version>0.1.0</version>
 </dependency>
 ```
 
 Gradle
 ```groovy
-implementation 'dev.samsanders.openvex:jvex:1.0.0'
+implementation 'dev.samsanders.openvex:jvex:0.1.0'
 ```
 
 ##  Usage
@@ -69,7 +69,7 @@ The `Document` above will serialize to the following JSON:
   "role": "Project Release Bot",
   "timestamp": "2023-09-28T10:45:44.884207-06:00",
   "version": 1,
-  "tooling": "jvex/1.0.0",
+  "tooling": "jvex/0.1.0",
   "statements": [
     {
       "products": [
@@ -105,7 +105,7 @@ Note the defaults:
 - `@id` is generated based on the "canonical hash" algorithm
 - `timestamp` defaults to now
 - `version` defaults to 1
-- `tooling` defaults to "jvex/1.0.0"
+- `tooling` defaults to "jvex/0.1.0"
 
 </details>
 
