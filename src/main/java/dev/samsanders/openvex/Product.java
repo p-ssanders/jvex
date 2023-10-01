@@ -18,17 +18,23 @@ import java.util.Objects;
 @JsonInclude(Include.NON_NULL)
 public final class Product extends Component {
 
-    /**
-     * List of component structs describing the subcomponents subject of the VEX
-     * statement.
-     */
     private Collection<Component> subcomponents;
 
+    /**
+     * Create a Product with an id
+     * @param id cannot be null
+     */
     @JsonCreator
     public Product(@JsonProperty("@id") URI id) {
+        if (null == id) {
+            throw new IllegalArgumentException("id cannot be null");
+        }
         this.id = id;
     }
 
+    /**
+     * Get a list of component structs describing the subcomponents subject of the VEX statement
+     */
     public Collection<Component> getSubcomponents() {
         if(null == this.subcomponents)
             this.subcomponents = new ArrayList<>();

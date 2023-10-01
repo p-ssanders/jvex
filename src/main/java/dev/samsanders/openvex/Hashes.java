@@ -40,9 +40,6 @@ public final class Hashes {
     @JsonProperty("blake2b-512")
     private String blake2b512;
 
-    public Hashes() {
-    }
-
     @JsonCreator
     Hashes(
             @JsonProperty("md5") String md5,
@@ -69,6 +66,9 @@ public final class Hashes {
         this.blake2s256 = blake2s256;
         this.blake2b256 = blake2b256;
         this.blake2b512 = blake2b512;
+    }
+
+    public Hashes() {
     }
 
     public String getMd5() {

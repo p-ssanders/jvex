@@ -29,58 +29,27 @@ public final class Document {
     private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writer().withDefaultPrettyPrinter();
     private static final ObjectReader OBJECT_READER = OBJECT_MAPPER.reader();
 
-    /**
-     * The URL linking to the OpenVEX context definition. The URL is structured as
-     * https://openvex.dev/ns/v[version], where [version] represents the specific
-     * version number, such as v0.2.0.
-     */
     @JsonProperty(value = "@context", required = true)
     private final URI context;
 
-    /**
-     * The IRI identifying the VEX document.
-     */
     @JsonProperty(value = "@id", required = true)
     private URI id;
 
-    /**
-     * Author is the identifier for the author of the VEX statement.
-     */
     private final String author;
 
-    /**
-     * Timestamp defines the time at which the document was issued.
-     */
     @JsonFormat(without = {ADJUST_DATES_TO_CONTEXT_TIME_ZONE})
     private OffsetDateTime timestamp;
 
-    /**
-     * Version is the document version.
-     */
     private Integer version;
 
-    /**
-     * role describes the role of the document author.
-     */
     private String role;
 
-    /**
-     * Date of last modification to the document.
-     */
     @JsonProperty("last_updated")
     @JsonFormat(without = {ADJUST_DATES_TO_CONTEXT_TIME_ZONE})
     private OffsetDateTime lastUpdated;
 
-    /**
-     * Tooling expresses how the VEX document and contained VEX statements were
-     * generated.
-     */
     private String tooling;
 
-    /**
-     * A statement is an assertion made by the document's author about the impact a
-     * vulnerability has on one or more software "products".
-     */
     private Collection<Statement> statements;
 
     @JsonIgnore
@@ -121,46 +90,90 @@ public final class Document {
         this.statements = new ArrayList<>();
     }
 
+    /**
+     * Instantiate a document with defaults:
+     * <ul>
+     *  <li>context to https://openvex.dev/ns/v0.2.0 </li>
+     *  <li>timestamp to now </li>
+     *  <li>version to 1 </li>
+     *  <li>tooling to jvex/1.0.0 </li>
+     *  <li>id to null, will be generated upon serialization based on document contents </li>
+     * </ul>
+     * @param author cannot be null
+     */
     public Document(String author) {
         this(DEFAULT_CONTEXT, null, author);
     }
 
+    /**
+     * Get the URL linking to the OpenVEX context definition. The URL is structured as
+     * https://openvex.dev/ns/v[version], where [version] represents the specific
+     * version number, such as v0.2.0
+     */
     public URI getContext() {
         return this.context;
     }
 
+    /**
+     * Get the IRI identifying the VEX document
+     */
     public URI getId() {
         return this.id;
     }
 
+    /**
+     * Get the author identifier for the author of the VEX statement
+     */
     public String getAuthor() {
         return this.author;
     }
 
-    public OffsetDateTime getTimestamp() {
-        return this.timestamp;
-    }
-
-    public Integer getVersion() {
-        return this.version;
-    }
-
+    /**
+     * Get the role of the document author
+     */
     public String getRole() {
         return this.role;
     }
 
+    /**
+     * Get the timestamp at which the document was issued
+     */
+    public OffsetDateTime getTimestamp() {
+        return this.timestamp;
+    }
+
+    /**
+     * Get the version of the document
+     */
+    public Integer getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Get the date of last modification to the document
+     */
     public OffsetDateTime getLastUpdated() {
         return this.lastUpdated;
     }
 
+    /**
+     * Tooling expresses how the VEX document and contained VEX statements were generated
+     */
     public String getTooling() {
         return this.tooling;
     }
 
+    /**
+     * Get the assertions made by the document's author about the impact a
+     * vulnerability has on one or more software "products"
+     */
     public Collection<Statement> getStatements() {
         return this.statements;
     }
 
+    /**
+     * Sets the role of the document author
+     */
     public void setRole(String role) {
         if (this.deserialized) {
             throw new IllegalStateException("Cannot set author role on existing documents");
@@ -168,18 +181,34 @@ public final class Document {
         this.role = role;
     }
 
+    /**
+     * Sets the date of last modification to the document
+     */
     public void setLastUpdated(OffsetDateTime lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
+    /**
+     * Express how the VEX document and contained VEX statements were generated
+     * Defaults to include `jvex/1.0.0`
+     */
     public void setTooling(String tooling) {
         this.tooling = tooling;
     }
 
+    /**
+     * Increments the document's version by 1
+     */
     public void incrementVersion() {
         this.version++;
     }
 
+    /**
+     * Convenience method to serialize the document to JSON
+     *
+     * @return A `String` representation of the document as JSON
+     * @throws IOException If the document is invalid according to the OpenVEX spec
+     */
     public String asJson() throws IOException {
         return OBJECT_WRITER.writeValueAsString(this);
     }

@@ -12,39 +12,48 @@ import java.util.Objects;
  */
 @JsonInclude(Include.NON_NULL)
 public sealed class Component permits Product {
-    /**
-     * Optional IRI identifying the component to make it externally referenceable.
-     */
+
     @JsonProperty("@id")
     protected URI id;
 
-    /**
-     * A map of software identifiers where the key is the type and the value the
-     * identifier.
-     */
     private Identifiers identifiers;
 
-    /**
-     * Map of cryptographic hashes of the component.
-     */
     private Hashes hashes;
 
+    /**
+     * Get the IRI identifying the component to make it externally referenceable
+     */
     public URI getId() {
         return id;
     }
 
+    /**
+     * Get the software identifiers
+     */
     public Identifiers getIdentifiers() {
         return identifiers;
     }
 
-    public void setIdentifiers(Identifiers identifiers) {
-        this.identifiers = identifiers;
-    }
-
+    /**
+     * Get the cryptographic hashes of the component
+     */
     public Hashes getHashes() {
         return hashes;
     }
 
+    /**
+     * Set the software identifiers
+     * <p>
+     * Only purl is currently supported
+     * </p>
+     */
+    public void setIdentifiers(Identifiers identifiers) {
+        this.identifiers = identifiers;
+    }
+
+    /**
+     * Set the cryptographic hashes of the component
+     */
     public void setHashes(Hashes hashes) {
         this.hashes = hashes;
     }

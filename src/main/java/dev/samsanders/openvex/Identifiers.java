@@ -9,7 +9,7 @@ import com.github.packageurl.PackageURL;
 import java.util.Objects;
 
 /**
- * A map of software identifiers where the key is the type and the value the identifier
+ * Software identifiers of a Component
  * Currently only supports purl
  */
 @JsonIgnoreProperties(ignoreUnknown = true)

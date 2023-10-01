@@ -6,8 +6,14 @@ import java.net.URI;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ProductTest {
+
+    @Test
+    void id_cannot_be_null() {
+        assertThrows(IllegalArgumentException.class, () -> new Product(null));
+    }
 
     @Test
     void can_add_subcomponents() {
