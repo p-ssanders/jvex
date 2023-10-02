@@ -59,6 +59,8 @@ The document can be serialized to JSON using the `toJson` convenience method tha
 jackson-databind `ObjectMapper`, or you can use your own `ObjectMapper`.
 Additionally, any framework that uses jackson-databind, (e.g.: Spring Web MVC) can be used to serialize a `Document`.
 
+The serialization process includes validation to only produce valid OpenVEX 0.2.0 JSON.
+
 The `Document` above will serialize to the following JSON:
 
 ```json
@@ -112,8 +114,8 @@ Note the defaults:
 <details>
 <summary>Consume a VEX Document</summary>
 
-Deserialize JSON using `jackson-databind` or a framework that uses it (e.g.: Spring Web MVC)
-The deserialization approach accepts any valid OpenVEX 0.2.0 JSON.
+Deserialize JSON using `jackson-databind` or a framework that uses it (e.g.: Spring Web MVC).
+The deserialization process includes validation to only accept valid OpenVEX 0.2.0 JSON.
 It fails if the JSON is invalid according to the spec (i.e.: MUSTs, required fields, types, conditional logic, etc.)
 
 ```java
@@ -136,6 +138,12 @@ public ResponseEntity<Void> create(@RequestBody Document document) {
 
 <summary>Add a Statement to a Document</summary>
 
-TODO
+A statement is added to a `Document` by invoking `getStatements().add()` on the `Document` instance.
+
+Adding a statement to a new instance has no side effects, the statement is added to the document without a timestamp
+and therefore inherits the document's timestamp.
+
+Adding a statement to deserialized instances has side effects to implement OpenVEX 0.2.0 "[Updating Statements with Inherited Data](https://github.com/openvex/spec/blob/main/OPENVEX-SPEC.md#updating-statements-with-inherited-data)"
+use-case.
 
 </details>
