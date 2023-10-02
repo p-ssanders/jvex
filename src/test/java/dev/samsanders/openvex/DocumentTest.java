@@ -229,4 +229,15 @@ class DocumentTest {
         assertNull(statements.get(1).getTimestamp());
         assertTrue(document.getTimestamp().isAfter(originalDocumentTimestamp));
     }
+
+    @Test
+    void tooling_is_appended_to_deserialized_documents() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("documents/example.json").getFile());
+
+        Document document = Document.fromFile(file);
+
+        System.out.println(document.getTooling());
+        assertTrue(document.getTooling().contains("jvex/0.1.0"));
+    }
 }

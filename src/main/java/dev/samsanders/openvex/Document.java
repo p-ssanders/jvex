@@ -28,6 +28,7 @@ public final class Document {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
     private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writer().withDefaultPrettyPrinter();
     private static final ObjectReader OBJECT_READER = OBJECT_MAPPER.reader();
+    private static final String DEFAULT_TOOLING = "jvex/0.1.0";
 
     @JsonProperty(value = "@context", required = true)
     private final URI context;
@@ -61,12 +62,16 @@ public final class Document {
              @JsonProperty(value = "author", required = true) String author,
              @JsonProperty(value = "timestamp", required = true) OffsetDateTime timestamp,
              @JsonProperty(value = "version", required = true) Integer version,
+             @JsonProperty(value = "tooling") String tooling,
              @JsonProperty(value = "statements", required = true) Collection<Statement> statements) {
         this.context = context;
         this.id = id;
         this.author = author;
         this.timestamp = timestamp;
         this.version = version;
+        if (null != tooling) {
+            this.tooling = ("%s," + DEFAULT_TOOLING).formatted(tooling);
+        }
         if (statements.isEmpty()) {
             throw new IllegalArgumentException("Document must have statements");
         }
@@ -86,7 +91,7 @@ public final class Document {
         this.author = author;
         this.timestamp = OffsetDateTime.now();
         this.version = 1;
-        this.tooling = "jvex/0.1.0";
+        this.tooling = DEFAULT_TOOLING;
         this.statements = new ArrayList<>();
     }
 
@@ -99,6 +104,7 @@ public final class Document {
      *  <li>tooling to jvex/0.1.0 </li>
      *  <li>id to null, will be generated upon serialization based on document contents </li>
      * </ul>
+     *
      * @param author cannot be null
      */
     public Document(String author) {
