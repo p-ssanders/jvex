@@ -8,13 +8,13 @@ import java.net.URI;
 import java.util.Objects;
 
 /**
- * The "abstract" type shared by Product and its subcomponents field
+ * The abstract type shared by Product and its subcomponents field
  */
 @JsonInclude(Include.NON_NULL)
 public sealed class Component permits Product {
 
     @JsonProperty("@id")
-    protected URI id;
+    URI id;
 
     private Identifiers identifiers;
 
