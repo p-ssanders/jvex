@@ -69,8 +69,11 @@ public final class Document {
         this.author = author;
         this.timestamp = timestamp;
         this.version = version;
-        if (null != tooling) {
+        if (null != tooling && !tooling.contains(DEFAULT_TOOLING)) {
             this.tooling = ("%s," + DEFAULT_TOOLING).formatted(tooling);
+        }
+        else {
+            this.tooling = tooling;
         }
         if (statements.isEmpty()) {
             throw new IllegalArgumentException("Document must have statements");

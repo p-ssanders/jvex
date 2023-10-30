@@ -237,7 +237,7 @@ class DocumentTest {
 
         Document document = Document.fromFile(file);
 
-        System.out.println(document.getTooling());
-        assertTrue(document.getTooling().contains("jvex/0.1.0"));
+        assertEquals("jvex/0.1.0", document.getTooling());
     }
+
 }

@@ -65,7 +65,7 @@ public class OutsidePackageTests {
         assertEquals("Project Release Bot", actual.getRole());
         assertEquals(OffsetDateTime.parse("2023-01-16T19:07:16.853479631-06:00"), actual.getTimestamp());
         assertEquals(1, actual.getVersion());
-        assertEquals("jvex/0.0.1,jvex/0.1.0", actual.getTooling());
+        assertEquals("jvex/0.1.0", actual.getTooling());
         assertFalse(actual.getStatements().isEmpty());
         assertEquals(OffsetDateTime.parse("2023-09-06T00:05:18.123456789-05:00"), actual.getLastUpdated());
         assertFalse(actual.getStatements().isEmpty());
