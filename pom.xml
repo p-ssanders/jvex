@@ -4,7 +4,7 @@
 
     <groupId>dev.samsanders.openvex</groupId>
     <artifactId>jvex</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2-SNAPSHOT</version>
 
     <name>jvex</name>
     <description>Java library for generating, consuming, and operating on VEX documents</description>
@@ -33,7 +33,7 @@
         <url>https://github.com/p-ssanders/jvex.git</url>
         <connection>scm:git:https://github.com/p-ssanders/jvex.git</connection>
         <developerConnection>scm:git:git@github.com:p-ssanders/jvex.git</developerConnection>
-        <tag>jvex-0.1.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
